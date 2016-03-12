@@ -1,14 +1,12 @@
 package com.mou.smslocation;
 
-import java.io.FileOutputStream;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.util.Log;
+
 
 public class SmsReceiver extends BroadcastReceiver {
 	private Context context;
