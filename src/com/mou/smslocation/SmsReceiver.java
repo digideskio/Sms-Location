@@ -3,6 +3,7 @@ package com.mou.smslocation;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
@@ -15,10 +16,17 @@ public class SmsReceiver extends BroadcastReceiver {
 	private void saveSms(String num, String message)
 	{
 		SQLiteDatabase db;
+		Cursor cur;
+		int id = 0;
 		
 		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number VARCHAR, data VARCHAR);");
-		db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "');");
+		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, id INTEGER);");
+		cur = db.rawQuery("SELECT id FROM sms;", null);
+		while (cur.moveToNext())
+		{
+			id += 1;
+		}
+		db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "'," + Integer.toString(id) + ");");
 		db.close();
 	}
 	@Override

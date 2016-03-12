@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,7 +17,7 @@ public class SmsList extends Activity {
 	private ListView smsList;
 	private Context context;
 	
-	private String[] getSmsArray()
+	public String[] getSmsArray()
 	{
 		String res[];
 		StringBuffer buff = new StringBuffer();
@@ -22,11 +25,11 @@ public class SmsList extends Activity {
 		Cursor cur;
 		
 		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number VARCHAR, data VARCHAR);");
-		cur = db.rawQuery("SELECT * FROM sms;", null);
+		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, id INTEGER);");
+		cur = db.rawQuery("SELECT * FROM sms ORDER BY id DESC;", null);
 		while (cur.moveToNext())
 		{
-			buff.append(cur.getString(0) + ":"+ cur.getString(1));
+			buff.append("id: " + cur.getString(2) + "/" + cur.getString(0) + ":"+ cur.getString(1));
 			buff.append("\n");
 		}
 		db.close();
@@ -51,6 +54,13 @@ public class SmsList extends Activity {
 		
 		context = getApplicationContext();
 		smsList = (ListView) findViewById(R.id.smslist);
+		
+		smsList.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				
+			}
+		});
 		
 		reloadData();
 	}
