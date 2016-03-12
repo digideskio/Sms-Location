@@ -7,5 +7,8 @@
     <string name="title_activity_sms_list">SmsList</string>
     <string name="tosms">History</string>
     <string name="tosend">Send Position</string>
-    
+    <string name="title_activity_send_position">SendPosition</string>
+    <string name="phonehint">+33..</string>
+    <string name="send">Send</string>
+	<string name="waiting">Waiting for position</string>
 </resources>

@@ -12,6 +12,7 @@ public class MainActivity extends Activity {
 	private String TAG = "SmsLocationMain";
 	private Context context;
 	private Button tosmslist;
+	private Button tosend;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +21,19 @@ public class MainActivity extends Activity {
 		
 		context = getApplicationContext();
 		tosmslist = (Button) findViewById(R.id.tosmslist);
+		tosend = (Button) findViewById(R.id.tosend);
 		
 		tosmslist.setOnClickListener(new OnClickListener() {
 			public void onClick(View p)
 			{
 				Intent i = new Intent(context, SmsList.class);
+				startActivity(i);
+			}
+		});
+		tosend.setOnClickListener(new OnClickListener() {
+			public void onClick(View p)
+			{
+				Intent i = new Intent(context, SendPosition.class);
 				startActivity(i);
 			}
 		});
