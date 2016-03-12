@@ -4,5 +4,8 @@
     <string name="app_name">Sms Location</string>
     <string name="db_name">geosms.db</string>
     <string name="prefix">SmsLocationApp</string>
-
+    <string name="title_activity_sms_list">SmsList</string>
+    <string name="tosms">History</string>
+    <string name="tosend">Send Position</string>
+    
 </resources>
