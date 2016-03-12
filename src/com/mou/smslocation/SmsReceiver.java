@@ -38,6 +38,7 @@ public class SmsReceiver extends BroadcastReceiver {
 			if (body.startsWith(context.getString(R.string.prefix)))
 			{
 				//only saving useful messages
+				body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
 				saveSms(num, body);
 			}
 		}
