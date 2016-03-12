@@ -2,8 +2,10 @@ package com.mou.smslocation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,10 +62,14 @@ public class SmsList extends Activity {
 		smsList.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String[] coords;
+				String coords;
 				
-				coords = getSmsArray(1);
-				Toast.makeText(context, coords[(int)id], Toast.LENGTH_SHORT).show();
+				coords = getSmsArray(1)[(int)id];
+				//Toast.makeText(context, coords, Toast.LENGTH_SHORT).show();
+				String uri = "geo:" + coords;
+				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(i);
 			}
 		});
 		

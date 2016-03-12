@@ -43,7 +43,7 @@ public class SendPosition extends Activity implements LocationListener {
 				String message;
 				
 				message = ((String) context.getText(R.string.prefix))+"/" +
-						lastposition.getLatitude() + ":" + lastposition.getLongitude();
+						lastposition.getLatitude() + "," + lastposition.getLongitude();
 				SmsManager smsManager = SmsManager.getDefault();
 				try
 				{
