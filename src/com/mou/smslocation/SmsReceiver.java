@@ -1,15 +1,31 @@
 package com.mou.smslocation;
 
+import java.io.FileOutputStream;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
 public class SmsReceiver extends BroadcastReceiver {
+	private Context context;
+	private String TAG = "SmsReceiver";
+	
+	private void saveSms(String num, String message)
+	{
+		SQLiteDatabase db;
+		
+		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
+		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number VARCHAR, data VARCHAR);");
+		db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "');");
+		db.close();
+	}
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(Context context_, Intent intent) {
+		context = context_;
 		SmsMessage message;
 		String body;
 		String num;
@@ -21,9 +37,10 @@ public class SmsReceiver extends BroadcastReceiver {
 			message = SmsMessage.createFromPdu((byte[]) pdus[x]);
 			num = message.getDisplayOriginatingAddress();
 			body = message.getDisplayMessageBody();
-			if (body.startsWith("smslocation:"))
+			if (body.startsWith(context.getString(R.string.prefix)))
 			{
-				Log.d("GOT MESSAGE", num + " : " + body);
+				//only saving useful messages
+				saveSms(num, body);
 			}
 		}
 	}

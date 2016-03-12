@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Sms Location</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="file_name">sms.txt</string>
+    <string name="db_name">geosms.db</string>
+    <string name="prefix">SmsLocationApp</string>
 
 </resources>
