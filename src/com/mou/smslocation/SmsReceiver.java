@@ -43,6 +43,7 @@ public class SmsReceiver extends BroadcastReceiver {
 			message = SmsMessage.createFromPdu((byte[]) pdus[x]);
 			num = message.getDisplayOriginatingAddress();
 			body = message.getDisplayMessageBody();
+			
 			if (body.startsWith(context.getString(R.string.prefix)))
 			{
 				//only saving useful messages

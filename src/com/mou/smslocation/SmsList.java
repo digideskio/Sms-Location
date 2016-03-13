@@ -66,7 +66,7 @@ public class SmsList extends Activity {
 				
 				coords = getSmsArray(1)[(int)id];
 				//Toast.makeText(context, coords, Toast.LENGTH_SHORT).show();
-				String uri = "geo:" + coords;
+				String uri = "geo:" + coords + "?q=" + coords + "(label)";
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(i);
