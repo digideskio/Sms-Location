@@ -28,11 +28,10 @@ public class SmsList extends Activity {
 		Cursor cur;
 		
 		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, id INTEGER);");
-		cur = db.rawQuery("SELECT * FROM sms ORDER BY id DESC;", null);
+		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME);");
+		cur = db.rawQuery("SELECT * FROM sms ORDER BY date DESC;", null);
 		while (cur.moveToNext())
 		{
-			//buff.append("id: " + cur.getString(2) + "/" + cur.getString(0) + ":"+ cur.getString(1));
 			buff.append(cur.getString(select));
 			buff.append("\n");
 		}

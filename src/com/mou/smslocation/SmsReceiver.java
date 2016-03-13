@@ -16,17 +16,10 @@ public class SmsReceiver extends BroadcastReceiver {
 	private void saveSms(String num, String message)
 	{
 		SQLiteDatabase db;
-		Cursor cur;
-		int id = 0;
 		
 		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, id INTEGER);");
-		cur = db.rawQuery("SELECT id FROM sms;", null);
-		while (cur.moveToNext())
-		{
-			id += 1;
-		}
-		db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "'," + Integer.toString(id) + ");");
+		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME);");
+		db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "',datetime());");
 		db.close();
 	}
 	@Override
@@ -49,6 +42,7 @@ public class SmsReceiver extends BroadcastReceiver {
 				//only saving useful messages
 				body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
 				saveSms(num, body);
+				abortBroadcast();
 			}
 		}
 	}
