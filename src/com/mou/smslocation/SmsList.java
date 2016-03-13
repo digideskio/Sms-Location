@@ -44,6 +44,7 @@ public class SmsList extends Activity {
 		String[] res;
 		
 		res = getSmsArray(context, 0);
+		res = MainActivity.phoneArrayToName(context, res);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				context,
 				android.R.layout.simple_list_item_1,
