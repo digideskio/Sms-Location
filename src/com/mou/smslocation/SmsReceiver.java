@@ -56,14 +56,13 @@ public class SmsReceiver extends BroadcastReceiver {
 			message = SmsMessage.createFromPdu((byte[]) pdus[x]);
 			num = message.getDisplayOriginatingAddress();
 			body = message.getDisplayMessageBody();
-			
 			if (body.startsWith(context.getString(R.string.prefix)))
 			{
 				//only saving useful messages
 				body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
 				saveSms(num, body);
 				notifyNewPos(num);
-				abortBroadcast();
+				//abortBroadcast();
 			}
 		}
 	}

@@ -3,11 +3,13 @@ package com.mou.smslocation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SendPosition extends Activity implements LocationListener {
+	final int PHONE_PICK = 42;
 	private String TAG = "PositionSender";
 	private Context context;
 	private LocationManager locationManager;
@@ -30,6 +34,7 @@ public class SendPosition extends Activity implements LocationListener {
 	private Button send;
 	private Location lastposition;
 	private ListView smsList;
+	private ImageButton pickcontact;
 	
 	private void reloadData()
 	{
@@ -56,6 +61,7 @@ public class SendPosition extends Activity implements LocationListener {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		
 		smsList = (ListView) findViewById(R.id.recentlist);
+		pickcontact = (ImageButton) findViewById(R.id.pickcontact);
 		
 		smsList.setOnItemClickListener(new OnItemClickListener(){
 			@Override
@@ -91,6 +97,15 @@ public class SendPosition extends Activity implements LocationListener {
 				}
 			}
 		});
+		pickcontact.setOnClickListener(new OnClickListener(){
+			public void onClick(View p)
+			{
+				Intent i;
+				
+				i = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+				startActivityForResult(i, PHONE_PICK);
+			}
+		});
 		reloadData();
 	}
 	@Override
@@ -104,6 +119,27 @@ public class SendPosition extends Activity implements LocationListener {
 	{
 		super.onPause();
 		locationManager.removeUpdates(this);
+	}
+	
+	@Override
+	public void onActivityResult(int req, int res, Intent data)
+	{
+		if (req == PHONE_PICK && res == RESULT_OK)
+		{
+			Uri contact = data.getData();
+			Cursor cursor;
+			int col;
+			String res_data;
+			
+			cursor = getContentResolver().query(contact, null, null, null, null);
+			cursor.moveToFirst();
+			col = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+			res_data = cursor.getString(col);
+			if (phone != null)
+			{
+				phone.setText(res_data);
+			}
+		}
 	}
 	
 	@Override
