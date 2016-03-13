@@ -11,4 +11,6 @@
     <string name="phonehint">+33..</string>
     <string name="send">Send</string>
 	<string name="waiting">Waiting for position</string>
+	<string name="recent">Recent positions:</string>
+	
 </resources>

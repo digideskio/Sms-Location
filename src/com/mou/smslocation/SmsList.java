@@ -20,14 +20,14 @@ public class SmsList extends Activity {
 	private ListView smsList;
 	private Context context;
 	
-	public String[] getSmsArray(int select)
+	public static String[] getSmsArray(Context cont, int select)
 	{
 		String res[];
 		StringBuffer buff = new StringBuffer();
 		SQLiteDatabase db;
 		Cursor cur;
 		
-		db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
+		db = cont.openOrCreateDatabase(cont.getString(R.string.db_name), Context.MODE_PRIVATE, null);
 		db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME);");
 		cur = db.rawQuery("SELECT * FROM sms ORDER BY date DESC;", null);
 		while (cur.moveToNext())
@@ -43,9 +43,9 @@ public class SmsList extends Activity {
 	{
 		String[] res;
 		
-		res = getSmsArray(0);
+		res = getSmsArray(context, 0);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getApplicationContext(),
+				context,
 				android.R.layout.simple_list_item_1,
 				res);
 		smsList.setAdapter(adapter);
@@ -63,7 +63,7 @@ public class SmsList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				String coords;
 				
-				coords = getSmsArray(1)[(int)id];
+				coords = getSmsArray(context, 1)[(int)id];
 				//Toast.makeText(context, coords, Toast.LENGTH_SHORT).show();
 				String uri = "geo:" + coords + "?q=" + coords + "(label)";
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
