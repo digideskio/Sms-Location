@@ -36,7 +36,7 @@
         </receiver>
 
         <activity
-            android:name=".SmsList"
+            android:name="com.mou.smslocation.SmsList"
             android:label="@string/title_activity_sms_list" >
         </activity>
         <activity

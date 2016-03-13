@@ -106,11 +106,10 @@ public class SendPosition extends Activity implements LocationListener {
 		locationManager.removeUpdates(this);
 	}
 	
-
 	@Override
 	public void onLocationChanged(Location location) {
 		lastposition = location;
-		tvposition.setText("Getting position:\n" + location.getLatitude() + "$" + location.getLongitude());
+		tvposition.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
 	}
 
 	@Override
