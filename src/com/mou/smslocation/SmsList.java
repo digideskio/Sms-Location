@@ -63,10 +63,12 @@ public class SmsList extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				String coords;
+				String name;
 				
+				name = getSmsArray(context, 0)[(int)id];
 				coords = getSmsArray(context, 1)[(int)id];
 				//Toast.makeText(context, coords, Toast.LENGTH_SHORT).show();
-				String uri = "geo:" + coords + "?q=" + coords + "(label)";
+				String uri = "geo:" + coords + "?q=" + coords + "("+MainActivity.getContactName(context, name)+")";
 				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(i);
