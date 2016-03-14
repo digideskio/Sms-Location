@@ -8,21 +8,28 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.PhoneLookup;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-	private String TAG = "SmsLocationMain";
+	private static String TAG = "SmsLocationMain";
 	private Context context;
 	private Button tosmslist;
 	private Button tosend;
 	
 	public static String getContactName(Context context, String phoneNumber) {
 		String contactName = phoneNumber;
-		ContentResolver cr = context.getContentResolver();
-	    Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-	    Cursor cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
+		Cursor cursor = null;
+		try {
+			ContentResolver cr = context.getContentResolver();
+			Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+			cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
+		}
+		catch (Exception e) {
+			Log.e(TAG, e.getMessage());
+		}
 	    if (cursor == null) {
 	        return phoneNumber;
 	    }
