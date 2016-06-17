@@ -31,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, e.getMessage());
         }
         if (cursor == null) {
-            return phoneNumber;
+            return (phoneNumber);
         }
         if(cursor.moveToFirst()) {
             contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
         }
-        return contactName;
+        cursor.close();
+        return (contactName);
     }
     public static String[] phoneArrayToName(Context context, final String[] numbers)
     {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             result[x] = getContactName(context, numbers[x]);
             x += 1;
         }
-        return result;
+        return (result);
     }
 
     @Override

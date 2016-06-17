@@ -56,7 +56,6 @@ public class SmsList extends AppCompatActivity {
 
         context = getApplicationContext();
         smsList = (ListView) findViewById(R.id.smslist);
-
         smsList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

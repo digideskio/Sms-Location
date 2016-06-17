@@ -22,6 +22,7 @@ public class SmsReceiver extends BroadcastReceiver {
         db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME);");
         db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "',datetime());");
+        //unsecure to sql injection
         db.close();
     }
     private void notifyNewPos(String num)
@@ -57,7 +58,6 @@ public class SmsReceiver extends BroadcastReceiver {
             body = message.getDisplayMessageBody();
             if (body.startsWith(context.getString(R.string.prefix)))
             {
-                //only saving useful messages
                 body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
                 saveSms(num, body);
                 notifyNewPos(num);

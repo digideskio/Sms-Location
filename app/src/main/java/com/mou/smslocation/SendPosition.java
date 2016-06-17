@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -25,13 +26,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SendPosition extends Activity implements LocationListener {
+public class SendPosition extends AppCompatActivity implements LocationListener {
 
     final int PHONE_PICK = 42;
     private String TAG = "PositionSender";
     private Context context;
     private LocationManager locationManager;
-    private TextView tvposition;
+    private TextView tvlastposition;
     private EditText phone;
     private Button send;
     private Location lastposition;
@@ -50,31 +51,32 @@ public class SendPosition extends Activity implements LocationListener {
         smsList.setAdapter(adapter);
     }
 
+    private boolean checkLocationPermission()
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG);
+            return (true);
+        }
+        return (false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_position);
         context = getApplicationContext();
 
-        tvposition = (TextView) findViewById(R.id.lastposition);
+        tvlastposition = (TextView) findViewById(R.id.lastposition);
         send = (Button) findViewById(R.id.send);
         phone = (EditText) findViewById(R.id.phone);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
         smsList = (ListView) findViewById(R.id.recentlist);
         pickcontact = (ImageButton) findViewById(R.id.pickcontact);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (checkLocationPermission())
+            finish();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         smsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -119,32 +121,16 @@ public class SendPosition extends Activity implements LocationListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+        if (checkLocationPermission())
+            finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+        if (checkLocationPermission())
+            finish();
         locationManager.removeUpdates((LocationListener) this);
     }
 
@@ -165,6 +151,7 @@ public class SendPosition extends Activity implements LocationListener {
             if (phone != null)
             {
                 phone.setText(res_data);
+                cursor.close();
             }
         }
     }
@@ -172,7 +159,7 @@ public class SendPosition extends Activity implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         lastposition = location;
-        tvposition.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
+        tvlastposition.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
     }
 
     @Override
