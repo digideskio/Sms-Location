@@ -64,7 +64,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_position);
-        context = getApplicationContext();
+        context = SendPosition.this;
 
         tvlastposition = (TextView) findViewById(R.id.lastposition);
         send = (Button) findViewById(R.id.send);

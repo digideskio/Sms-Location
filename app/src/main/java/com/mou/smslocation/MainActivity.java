@@ -56,10 +56,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = getApplicationContext();
+        context = MainActivity.this;
         tosmslist = (Button) findViewById(R.id.tosmslist);
         tosend = (Button) findViewById(R.id.tosend);
-
         tosmslist.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p)
             {

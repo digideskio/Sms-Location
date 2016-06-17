@@ -34,7 +34,7 @@ public class SmsReceiver extends BroadcastReceiver {
         builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle("New position!")
-                .setContentText(num + " sent you his position.")
+                .setContentText(MainActivity.getContactName(context, num) + " sent you his position.")
                 .setAutoCancel(true);
         i = new Intent(context, SmsList.class);
         pending = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);

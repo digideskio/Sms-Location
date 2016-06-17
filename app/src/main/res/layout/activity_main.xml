@@ -24,4 +24,5 @@
         android:id="@+id/tosmslist"
         android:layout_below="@+id/tosend"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
