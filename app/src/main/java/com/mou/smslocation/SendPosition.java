@@ -54,7 +54,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private boolean checkLocationPermission()
     {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG);
+            Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG).show();
             return (true);
         }
         return (false);
@@ -69,7 +69,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         tvlastposition = (TextView) findViewById(R.id.lastposition);
         send = (Button) findViewById(R.id.send);
         phone = (EditText) findViewById(R.id.phone);
-
         smsList = (ListView) findViewById(R.id.recentlist);
         pickcontact = (ImageButton) findViewById(R.id.pickcontact);
 
@@ -77,7 +76,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         if (checkLocationPermission())
             finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
         smsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,6 +105,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
                 }
             }
         });
+        send.setClickable(false);
         pickcontact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
                 Intent i;
@@ -145,6 +144,8 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             String res_data;
 
             cursor = getContentResolver().query(contact, null, null, null, null);
+            if (cursor == null)
+                return ;
             cursor.moveToFirst();
             col = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             res_data = cursor.getString(col);
@@ -159,6 +160,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(Location location) {
         lastposition = location;
+        send.setClickable(true);
         tvlastposition.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
     }
 
