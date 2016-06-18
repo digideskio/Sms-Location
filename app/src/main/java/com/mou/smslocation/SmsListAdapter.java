@@ -44,8 +44,10 @@ public class SmsListAdapter extends BaseAdapter {
         }
         date = (TextView) convertView.findViewById(R.id.item_date);
         name = (TextView) convertView.findViewById(R.id.item_name);
-        date.setText(dates[position]);
-        name.setText(MainActivity.getContactName(context, phones[position]));
+        if (phones[position].length() > 0) {
+            name.setText(MainActivity.getContactName(context, phones[position]));
+            date.setText(dates[position]);
+        }
         return (convertView);
     }
 }

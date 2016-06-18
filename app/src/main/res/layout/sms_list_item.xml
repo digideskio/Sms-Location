@@ -19,14 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="@string/no_history"
             android:id="@+id/item_name" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="@string/no_database"
             android:id="@+id/item_date" />
     </LinearLayout>
 </LinearLayout>

@@ -1,14 +1,16 @@
 <resources>
     <string name="app_name">Sms Location</string>
     <string name="db_name">geosms.db</string>
-    <string name="prefix">SmsLocationApp</string>
-    <string name="title_activity_sms_list">SmsList</string>
+    <string name="prefix">http://play.google.com/store/apps/details?id=com.mou.smslocation</string>
+    <string name="title_activity_sms_list">Position History</string>
     <string name="to_sms">History</string>
     <string name="to_send">Send Position</string>
-    <string name="title_activity_send_position">SendPosition</string>
+    <string name="title_activity_send_position">Send Position</string>
     <string name="phone_hint">+33..</string>
     <string name="send">Send</string>
     <string name="waiting">Waiting for position</string>
     <string name="recent">Recent contacts:</string>
-    <string name="pick_contact">pick contact</string>
+    <string name="pick_contact">Pick contact</string>
+    <string name="no_history">No history</string>
+    <string name="no_database">Data base is empty</string>
 </resources>
