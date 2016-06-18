@@ -12,17 +12,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tosend"
+        android:text="@string/to_send"
         android:id="@+id/tosend"
-        android:layout_centerVertical="true"
+        android:layout_above="@+id/tosmslist"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tosms"
+        android:text="@string/to_sms"
         android:id="@+id/tosmslist"
-        android:layout_below="@+id/tosend"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

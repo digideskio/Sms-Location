@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "SmsLocationMain";
     private Context context;
-    private Button tosmslist;
-    private Button tosend;
+    private Button to_list;
+    private Button to_send;
 
     public static String getContactName(Context context, String phoneNumber) {
         String contactName = phoneNumber;
@@ -57,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = MainActivity.this;
-        tosmslist = (Button) findViewById(R.id.tosmslist);
-        tosend = (Button) findViewById(R.id.tosend);
-        tosmslist.setOnClickListener(new View.OnClickListener() {
+        to_list = (Button) findViewById(R.id.tosmslist);
+        to_send = (Button) findViewById(R.id.tosend);
+        to_list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p)
             {
                 Intent i = new Intent(context, SmsList.class);
                 startActivity(i);
             }
         });
-        tosend.setOnClickListener(new View.OnClickListener() {
+        to_send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p)
             {
                 Intent i = new Intent(context, SendPosition.class);

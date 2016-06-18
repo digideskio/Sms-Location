@@ -15,7 +15,7 @@ import android.widget.ListView;
 public class SmsList extends AppCompatActivity {
 
     private String TAG = "SmsLocationMain";
-    private ListView smsList;
+    private ListView sms_list;
     private Context context;
 
     public static String[] getSmsArray(Context cont, int select)
@@ -43,13 +43,7 @@ public class SmsList extends AppCompatActivity {
 
         res = getSmsArray(context, 0);
         res = MainActivity.phoneArrayToName(context, res);
-        /*
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                context,
-                android.R.layout.simple_list_item_1,
-                res);
-        */
-        smsList.setAdapter(new SmsListAdapter(context));
+        sms_list.setAdapter(new SmsListAdapter(context));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +51,8 @@ public class SmsList extends AppCompatActivity {
         setContentView(R.layout.activity_sms_list);
 
         context = SmsList.this;
-        smsList = (ListView) findViewById(R.id.smslist);
-        smsList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        sms_list = (ListView) findViewById(R.id.smslist);
+        sms_list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String coords;

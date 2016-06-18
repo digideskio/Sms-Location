@@ -32,12 +32,12 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private String TAG = "PositionSender";
     private Context context;
     private LocationManager locationManager;
-    private TextView tvlastposition;
+    private TextView tv_last_position;
     private EditText phone;
-    private Button send;
-    private Location lastposition;
-    private ListView smsList;
-    private ImageButton pickcontact;
+    private Location last_position;
+    private ListView sms_list;
+    private ImageButton pick_contact;
+    private ImageButton send;
 
     private void reloadData() {
         String[] res;
@@ -48,7 +48,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
                 context,
                 android.R.layout.simple_list_item_1,
                 res);
-        smsList.setAdapter(adapter);
+        sms_list.setAdapter(adapter);
     }
 
     private boolean checkLocationPermission()
@@ -66,17 +66,17 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_send_position);
         context = SendPosition.this;
 
-        tvlastposition = (TextView) findViewById(R.id.lastposition);
-        send = (Button) findViewById(R.id.send);
+        tv_last_position = (TextView) findViewById(R.id.lastposition);
+        send = (ImageButton) findViewById(R.id.send);
         phone = (EditText) findViewById(R.id.phone);
-        smsList = (ListView) findViewById(R.id.recentlist);
-        pickcontact = (ImageButton) findViewById(R.id.pickcontact);
+        sms_list = (ListView) findViewById(R.id.recentlist);
+        pick_contact = (ImageButton) findViewById(R.id.pickcontact);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (checkLocationPermission())
             finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        smsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        sms_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String num;
@@ -90,23 +90,26 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             public void onClick(View p) {
                 String message;
 
-                if (lastposition == null) {
+                if (last_position == null) {
                     Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 message = ((String) context.getText(R.string.prefix)) + "/" +
-                        lastposition.getLatitude() + "," + lastposition.getLongitude();
+                        last_position.getLatitude() + "," + last_position.getLongitude();
                 SmsManager smsManager = SmsManager.getDefault();
                 try {
                     smsManager.sendTextMessage(phone.getText().toString(), null, message, null, null);
                     Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
+                    finish();
                 } catch (Exception e) {
-                    Log.e(TAG, "Did not send sms:\n" + e.getMessage());
+                    Toast.makeText(context,
+                            "Did not send sms:\n" + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
         send.setClickable(false);
-        pickcontact.setOnClickListener(new View.OnClickListener() {
+        pick_contact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
                 Intent i;
 
@@ -159,9 +162,9 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        lastposition = location;
+        last_position = location;
         send.setClickable(true);
-        tvlastposition.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
+        tv_last_position.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
     }
 
     @Override

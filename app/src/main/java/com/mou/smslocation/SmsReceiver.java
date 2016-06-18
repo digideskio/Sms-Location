@@ -32,7 +32,7 @@ public class SmsReceiver extends BroadcastReceiver {
         PendingIntent pending;
 
         builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("New position!")
                 .setContentText(MainActivity.getContactName(context, num) + " sent you his position.")
                 .setAutoCancel(true);
