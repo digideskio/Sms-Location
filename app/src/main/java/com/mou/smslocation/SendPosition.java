@@ -92,7 +92,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
 
                 if (last_position == null) {
                     Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
-                    return;
+                    return ;
                 }
                 message = ((String) context.getText(R.string.prefix)) + "/" +
                         last_position.getLatitude() + "," + last_position.getLongitude();

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -57,8 +58,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = MainActivity.this;
-        to_list = (Button) findViewById(R.id.tosmslist);
-        to_send = (Button) findViewById(R.id.tosend);
+        to_list = (Button) findViewById(R.id.to_list);
+        to_send = (Button) findViewById(R.id.to_send);
+
+        Button[] Buttons = {to_list, to_send};
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        for (int i = 0; i < Buttons.length; i++) {
+            Buttons[i].setWidth(size.x / 2 - 40);
+        }
         to_list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p)
             {
