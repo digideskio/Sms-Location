@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -84,11 +85,11 @@ public class SmsList extends AppCompatActivity {
             @Override
             public void run() {
                 reloadData();
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 1000);
             }
         };
         handler = new Handler();
-        handler.postDelayed(runnable, 100);
+        handler.postDelayed(runnable, 1000);
     }
     @Override
     public void onResume()
