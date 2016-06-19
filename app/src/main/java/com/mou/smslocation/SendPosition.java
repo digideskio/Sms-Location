@@ -26,6 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
 public class SendPosition extends AppCompatActivity implements LocationListener {
 
     final int PHONE_PICK = 42;
@@ -37,12 +43,27 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private Location last_position;
     private ListView sms_list;
     private ImageButton send;
+    private String[] recent_phones;
+
+    private String[] removeDup(String[] from) {
+        ArrayList<String> from_list = new ArrayList<String>(Arrays.asList(from));
+        ArrayList<String> res_list = new ArrayList<String>();
+        String[] res;
+        for (int x = 0; x < from_list.size(); x++) {
+            if (!res_list.contains(from_list.get(x))) {
+                res_list.add(from_list.get(x));
+            }
+        }
+        res = res_list.toArray(new String[res_list.size()]);
+        return (res);
+    }
 
     private void reloadData() {
-        String[] res;
+        String res[];
 
-        res = SmsList.getSmsArray(context, 0);
-        res = MainActivity.phoneArrayToName(context, res);
+        recent_phones = SmsList.getSmsArray(context, 0);
+        recent_phones = removeDup(recent_phones);
+        res = MainActivity.phoneArrayToName(context, recent_phones);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 context,
                 android.R.layout.simple_list_item_1,
@@ -81,7 +102,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String num;
 
-                num = SmsList.getSmsArray(context, 0)[(int) id];
+                num = recent_phones[(int) id];
                 phone.setText(num);
             }
         });
@@ -95,7 +116,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
                     Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                message = ((String) context.getText(R.string.prefix)) + "&" +
+                message = ((String) context.getText(R.string.prefix)) + "=" +
                         last_position.getLatitude() + "," + last_position.getLongitude();
                 SmsManager smsManager = SmsManager.getDefault();
                 try {

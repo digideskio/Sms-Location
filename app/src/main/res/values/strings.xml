@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sms Location</string>
     <string name="db_name">geosms.db</string>
-    <string name="prefix">http://play.google.com/store/apps/details?id=com.mou.smslocation</string>
+    <string name="prefix">via Sms Location app:\n http://maps.google.com/maps?q</string>
     <string name="title_activity_sms_list">Position History</string>
     <string name="to_sms">History</string>
     <string name="to_send">Send Position</string>
