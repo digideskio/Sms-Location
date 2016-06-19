@@ -36,7 +36,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private EditText phone;
     private Location last_position;
     private ListView sms_list;
-    private ImageButton pick_contact;
     private ImageButton send;
 
     private void reloadData() {
@@ -51,8 +50,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         sms_list.setAdapter(adapter);
     }
 
-    private boolean checkLocationPermission()
-    {
+    private boolean checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG).show();
             return (true);
@@ -70,12 +68,14 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         send = (ImageButton) findViewById(R.id.send);
         phone = (EditText) findViewById(R.id.phone);
         sms_list = (ListView) findViewById(R.id.recentlist);
-        pick_contact = (ImageButton) findViewById(R.id.pickcontact);
+        ImageButton pick_contact = (ImageButton) findViewById(R.id.pickcontact);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (checkLocationPermission())
             finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        if (sms_list == null) throw new AssertionError("Object cannot be null");
         sms_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -86,13 +86,14 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             }
         });
 
+        if (send == null) throw new AssertionError("Object cannot be null");
         send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
                 String message;
 
                 if (last_position == null) {
                     Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
-                    return ;
+                    return;
                 }
                 message = ((String) context.getText(R.string.prefix)) + "&" +
                         last_position.getLatitude() + "," + last_position.getLongitude();
@@ -109,6 +110,8 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             }
         });
         send.setClickable(false);
+
+        if (pick_contact == null) throw new AssertionError("Object cannot be null");
         pick_contact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
                 Intent i;
@@ -117,6 +120,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
                 startActivityForResult(i, PHONE_PICK);
             }
         });
+
         reloadData();
     }
 
@@ -137,10 +141,8 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     }
 
     @Override
-    public void onActivityResult(int req, int res, Intent data)
-    {
-        if (req == PHONE_PICK && res == RESULT_OK)
-        {
+    public void onActivityResult(int req, int res, Intent data) {
+        if (req == PHONE_PICK && res == RESULT_OK) {
             Uri contact = data.getData();
             Cursor cursor;
             int col;
@@ -148,12 +150,11 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
 
             cursor = getContentResolver().query(contact, null, null, null, null);
             if (cursor == null)
-                return ;
+                return;
             cursor.moveToFirst();
             col = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             res_data = cursor.getString(col);
-            if (phone != null)
-            {
+            if (phone != null) {
                 phone.setText(res_data);
                 cursor.close();
             }

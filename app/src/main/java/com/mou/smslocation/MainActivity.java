@@ -17,10 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "SmsLocationMain";
     private Context context;
-    private Button to_list;
-    private Button to_send;
-    private Button to_info;
-    private Button to_settings;
 
     public static String getContactName(Context context, String phoneNumber) {
         String contactName = phoneNumber;
@@ -29,25 +25,23 @@ public class MainActivity extends AppCompatActivity {
             ContentResolver cr = context.getContentResolver();
             Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
             cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
         if (cursor == null) {
             return (phoneNumber);
         }
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
         }
         cursor.close();
         return (contactName);
     }
-    public static String[] phoneArrayToName(Context context, final String[] numbers)
-    {
+
+    public static String[] phoneArrayToName(Context context, final String[] numbers) {
         String[] result = new String[numbers.length];
         int x = 0;
-        while (x < numbers.length)
-        {
+        while (x < numbers.length) {
             result[x] = getContactName(context, numbers[x]);
             x += 1;
         }
@@ -60,10 +54,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = MainActivity.this;
-        to_list = (Button) findViewById(R.id.to_list);
-        to_send = (Button) findViewById(R.id.to_send);
-        to_settings = (Button) findViewById(R.id.to_settings);
-        to_info = (Button) findViewById(R.id.to_info);
+
+        Button to_list = (Button) findViewById(R.id.to_list);
+        Button to_send = (Button) findViewById(R.id.to_send);
+        Button to_settings = (Button) findViewById(R.id.to_settings);
+        Button to_info = (Button) findViewById(R.id.to_info);
+
+        if (to_list == null) throw new AssertionError("Object cannot be null");
+        to_list.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p) {
+                Intent i = new Intent(context, SmsList.class);
+                startActivity(i);
+            }
+        });
+
+        if (to_send == null) throw new AssertionError("Object cannot be null");
+        to_send.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p) {
+                Intent i = new Intent(context, SendPosition.class);
+                startActivity(i);
+            }
+        });
+
+        if (to_info == null) throw new AssertionError("Object cannot be null");
+        to_info.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p) {
+                Intent i = new Intent(context, Information.class);
+                startActivity(i);
+            }
+        });
+
+        if (to_settings == null) throw new AssertionError("Object cannot be null");
+        to_settings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p) {
+                Intent i = new Intent(context, Settings.class);
+                startActivity(i);
+            }
+        });
 
         Button[] Buttons = {to_list, to_send, to_info, to_settings};
         Point size = new Point();
@@ -71,38 +98,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < Buttons.length; i++) {
             Buttons[i].setWidth(size.x / 2 - 40);
         }
-        to_list.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View p)
-            {
-                Intent i = new Intent(context, SmsList.class);
-                startActivity(i);
-            }
-        });
-        to_send.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View p)
-            {
-                Intent i = new Intent(context, SendPosition.class);
-                startActivity(i);
-            }
-        });
-        to_info.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View p)
-            {
-                Intent i = new Intent(context, SmsList.class);
-                startActivity(i);
-            }
-        });
-        to_settings.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View p)
-            {
-                Intent i = new Intent(context, SendPosition.class);
-                startActivity(i);
-            }
-        });
     }
+
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 }

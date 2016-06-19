@@ -21,7 +21,7 @@ public class SmsList extends AppCompatActivity {
     public static String[] getSmsArray(Context cont, int select)
     {
         String res[];
-        StringBuffer buff = new StringBuffer();
+        StringBuilder buff = new StringBuilder();
         SQLiteDatabase db;
         Cursor cur;
 
@@ -57,6 +57,7 @@ public class SmsList extends AppCompatActivity {
 
         context = SmsList.this;
         sms_list = (ListView) findViewById(R.id.smslist);
+        if (sms_list == null) throw new AssertionError("Object cannot be null");
         sms_list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
