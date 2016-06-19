@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Button to_list;
     private Button to_send;
+    private Button to_info;
+    private Button to_settings;
 
     public static String getContactName(Context context, String phoneNumber) {
         String contactName = phoneNumber;
@@ -60,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
         context = MainActivity.this;
         to_list = (Button) findViewById(R.id.to_list);
         to_send = (Button) findViewById(R.id.to_send);
+        to_settings = (Button) findViewById(R.id.to_settings);
+        to_info = (Button) findViewById(R.id.to_info);
 
-        Button[] Buttons = {to_list, to_send};
+        Button[] Buttons = {to_list, to_send, to_info, to_settings};
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
         for (int i = 0; i < Buttons.length; i++) {
@@ -75,6 +79,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         to_send.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p)
+            {
+                Intent i = new Intent(context, SendPosition.class);
+                startActivity(i);
+            }
+        });
+        to_info.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p)
+            {
+                Intent i = new Intent(context, SmsList.class);
+                startActivity(i);
+            }
+        });
+        to_settings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p)
             {
                 Intent i = new Intent(context, SendPosition.class);
