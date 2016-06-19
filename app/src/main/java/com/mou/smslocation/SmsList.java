@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ public class SmsList extends AppCompatActivity {
     private String TAG = "SmsLocationList";
     private ListView sms_list;
     private Context context;
+    private Handler handler;
 
     public static String[] getSmsArray(Context cont, int select)
     {
@@ -56,6 +58,7 @@ public class SmsList extends AppCompatActivity {
         setContentView(R.layout.activity_sms_list);
 
         context = SmsList.this;
+
         sms_list = (ListView) findViewById(R.id.smslist);
         if (sms_list == null) throw new AssertionError("Object cannot be null");
         sms_list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -76,6 +79,16 @@ public class SmsList extends AppCompatActivity {
             }
         });
         reloadData();
+        Runnable runnable = new Runnable() {
+            //auto reload data
+            @Override
+            public void run() {
+                reloadData();
+                handler.postDelayed(this, 100);
+            }
+        };
+        handler = new Handler();
+        handler.postDelayed(runnable, 100);
     }
     @Override
     public void onResume()
