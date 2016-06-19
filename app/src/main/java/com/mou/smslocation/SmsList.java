@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 public class SmsList extends AppCompatActivity {
 
-    private String TAG = "SmsLocationMain";
+    private String TAG = "SmsLocationList";
     private ListView sms_list;
     private Context context;
 
@@ -33,7 +33,11 @@ public class SmsList extends AppCompatActivity {
             buff.append(cur.getString(select));
             buff.append("\n");
         }
+        cur.close();
         db.close();
+        if (buff.toString().length() == 0) {
+            return (new String[0]);
+        }
         res = buff.toString().split("\n");
         return (res);
     }
@@ -44,6 +48,7 @@ public class SmsList extends AppCompatActivity {
         res = getSmsArray(context, 0);
         res = MainActivity.phoneArrayToName(context, res);
         sms_list.setAdapter(new SmsListAdapter(context));
+        sms_list.setEmptyView(findViewById(R.id.empty));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

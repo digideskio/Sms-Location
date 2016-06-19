@@ -6,7 +6,7 @@
     <string name="to_sms">History</string>
     <string name="to_send">Send Position</string>
     <string name="title_activity_send_position">Send Position</string>
-    <string name="phone_hint">+33..</string>
+    <string name="phone_hint">Phone number</string>
     <string name="send">Send</string>
     <string name="waiting">Waiting for position</string>
     <string name="recent">Recent contacts:</string>
