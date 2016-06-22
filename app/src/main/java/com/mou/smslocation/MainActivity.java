@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,24 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "SmsLocationMain";
     private Context context;
+
+    public void checkFirstRun() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+            new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("This app is using SMS to communicate," +
+                            "\nWith the current settings anyone can access your position by SMS" +
+                            "\nYou can turn off sharing position in the options to prevent unwanted cost" +
+                            "\nand only use this application to send your position")
+                    .setNeutralButton("OK", null)
+                    .show();
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isFirstRun", false)
+                    .apply();
+        }
+    }
 
     public static String getContactName(Context context, String phoneNumber) {
         String contactName = phoneNumber;
@@ -107,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < Buttons.length; i++) {
             Buttons[i].setWidth(size.x / 2 - 40);
         }
+        checkFirstRun();
     }
 
     @Override

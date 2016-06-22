@@ -19,8 +19,8 @@ public class SmsListAdapter extends BaseAdapter {
     public SmsListAdapter(Context context_)
     {
         context = context_;
-        phones = SmsList.getSmsArray(context, 0);
-        dates = SmsList.getSmsArray(context, 2);
+        phones = SmsList.getSmsArray(context, 0, true);
+        dates = SmsList.getSmsArray(context, 2, true);
     }
     public int getCount() {
         return phones.length;
