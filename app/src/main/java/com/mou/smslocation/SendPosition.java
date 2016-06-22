@@ -49,6 +49,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         ArrayList<String> from_list = new ArrayList<String>(Arrays.asList(from));
         ArrayList<String> res_list = new ArrayList<String>();
         String[] res;
+
         for (int x = 0; x < from_list.size(); x++) {
             if (!res_list.contains(from_list.get(x))) {
                 res_list.add(from_list.get(x));
@@ -71,7 +72,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         sms_list.setAdapter(adapter);
     }
 
-    private boolean checkLocationPermission() {
+    public boolean checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG).show();
             return (true);
@@ -90,7 +91,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         phone = (EditText) findViewById(R.id.phone);
         sms_list = (ListView) findViewById(R.id.recentlist);
         ImageButton pick_contact = (ImageButton) findViewById(R.id.pickcontact);
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (checkLocationPermission())
             finish();
@@ -130,7 +130,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
                 }
             }
         });
-        send.setClickable(false);
 
         if (pick_contact == null) throw new AssertionError("Object cannot be null");
         pick_contact.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +184,6 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(Location location) {
         last_position = location;
-        send.setClickable(true);
         tv_last_position.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
     }
 
