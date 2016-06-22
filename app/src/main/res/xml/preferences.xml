@@ -16,6 +16,13 @@
         android:summary="Show GPS while sending position"
         android:title="Raw data" />
 
+    <EditTextPreference
+        android:key="cycle_wait"
+        android:title="Cycle wait"
+        android:summary="When someone request your position"
+        android:defaultValue="10"
+        android:inputType="number" />
+
     <Preference
         android:key="delete_database"
         android:summary="It will remove all history"

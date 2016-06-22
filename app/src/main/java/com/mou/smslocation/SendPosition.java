@@ -75,10 +75,32 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         sms_list.setAdapter(adapter);
     }
 
-    public boolean checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    public static boolean checkLocationPermission(Context context) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Permission error.", Toast.LENGTH_LONG).show();
             return (true);
+        }
+        return (false);
+    }
+
+    public static boolean sendPosition(Context context, String phone, Location location) {
+        String message;
+
+        if (location == null) {
+            Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
+            return (false);
+        }
+        message = ((String) context.getText(R.string.prefix)) + "=" +
+                location.getLatitude() + "," + location.getLongitude();
+        SmsManager smsManager = SmsManager.getDefault();
+        try {
+            smsManager.sendTextMessage(phone, null, message, null, null);
+            Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
+            return (true);
+        } catch (Exception e) {
+            Toast.makeText(context,
+                    "Did not send sms:\n" + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
         return (false);
     }
@@ -95,7 +117,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         sms_list = (ListView) findViewById(R.id.recentlist);
         ImageButton pick_contact = (ImageButton) findViewById(R.id.pickcontact);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (checkLocationPermission())
+        if (checkLocationPermission(context))
             finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
@@ -113,24 +135,8 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         if (send == null) throw new AssertionError("Object cannot be null");
         send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
-                String message;
-
-                if (last_position == null) {
-                    Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                message = ((String) context.getText(R.string.prefix)) + "=" +
-                        last_position.getLatitude() + "," + last_position.getLongitude();
-                SmsManager smsManager = SmsManager.getDefault();
-                try {
-                    smsManager.sendTextMessage(phone.getText().toString(), null, message, null, null);
-                    Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
+                if (sendPosition(context, phone.getText().toString(), last_position))
                     finish();
-                } catch (Exception e) {
-                    Toast.makeText(context,
-                            "Did not send sms:\n" + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -150,7 +156,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     @Override
     public void onResume() {
         super.onResume();
-        if (checkLocationPermission())
+        if (checkLocationPermission(context))
             finish();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
     }
@@ -158,7 +164,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     @Override
     public void onPause() {
         super.onPause();
-        if (checkLocationPermission())
+        if (checkLocationPermission(context))
             finish();
         locationManager.removeUpdates((LocationListener) this);
     }

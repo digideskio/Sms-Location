@@ -1,24 +1,36 @@
 package com.mou.smslocation;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.Telephony;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 
-public class SmsReceiver extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver implements LocationListener {
     private Context context;
     private String TAG = "SmsReceiver";
+    LocationManager locationManager;
+    int cycles = 0;
+    String last_phone;
 
     private void saveSms(String num, String message) {
         SQLiteDatabase db;
@@ -30,15 +42,15 @@ public class SmsReceiver extends BroadcastReceiver {
         db.close();
     }
 
-    private void notifyNewPos(String num) {
+    private void notifyNewPos(String num, String text) {
         NotificationCompat.Builder builder;
         Intent i;
         PendingIntent pending;
 
         builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("New position!")
-                .setContentText(MainActivity.getContactName(context, num) + " sent you his position.")
+                .setContentTitle(text)
+                .setContentText("From : " + MainActivity.getContactName(context, num))
                 .setAutoCancel(true);
         i = new Intent(context, SmsList.class);
         pending = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -47,16 +59,24 @@ public class SmsReceiver extends BroadcastReceiver {
         manager.notify(1, builder.build());
     }
 
-    private void manageSms(SmsMessage message) {
+    public void manageSms(Context context, SmsMessage message) {
         String body;
         String num;
 
         num = message.getDisplayOriginatingAddress();
+        last_phone = num;
         body = message.getDisplayMessageBody();
         if (body.startsWith(context.getString(R.string.prefix))) {
+            notifyNewPos(num, "New position!");
             body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
             saveSms(num, body);
-            notifyNewPos(num);
+        } else if (body.startsWith(context.getString(R.string.code))) {
+            notifyNewPos(num, "Position request!");
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            if (SendPosition.checkLocationPermission(context))
+                return;
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            cycles = 0;
         }
     }
 
@@ -69,7 +89,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
             messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
             for (int x = 0; x < messages.length; x += 1) {
-                manageSms(messages[x]);
+                manageSms(context, messages[x]);
             }
         } else {
             Bundle bundle = intent.getExtras();
@@ -81,8 +101,37 @@ public class SmsReceiver extends BroadcastReceiver {
             }
             for (int x = 0; x < pdus.length; x += 1) {
                 message = SmsMessage.createFromPdu((byte[]) pdus[x]);
-                manageSms(message);
+                manageSms(context, message);
             }
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (Integer.parseInt(SP.getString("cycle_wait", "10")) < cycles) {
+            if (SendPosition.checkLocationPermission(context))
+                return;
+            locationManager.removeUpdates((LocationListener)SmsReceiver.this);
+            SendPosition.sendPosition(context, last_phone, location);
+            cycles = 0;
+        }
+        cycles += 1;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

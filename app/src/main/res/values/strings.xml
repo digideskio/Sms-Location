@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Sms Location</string>
+    <string name="app_name">Sms Position</string>
     <string name="db_name">geosms.db</string>
-    <string name="prefix">via Sms Location app:\n http://maps.google.com/maps?q</string>
+    <string name="prefix">via Sms Position app:\n http://maps.google.com/maps?q</string>
     <string name="title_activity_sms_list">Position History</string>
     <string name="to_sms">History</string>
     <string name="to_send">Send Position</string>
@@ -15,6 +15,7 @@
     <string name="settings">Settings</string>
     <string name="information">Information</string>
     <string name="delete_database">Reset database</string>
+    <string name="code">Position request</string>
     <string name="informations">Information:\n
         This is an open source project:\n
         https://github.com/mouuff/Sms-Location\n
