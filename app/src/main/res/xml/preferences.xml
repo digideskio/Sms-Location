@@ -3,7 +3,7 @@
     <CheckBoxPreference
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="position_public"
         android:summary="Allow anyone to request your position"
         android:title="Share your position" />

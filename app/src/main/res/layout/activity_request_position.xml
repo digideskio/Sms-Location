@@ -7,14 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SendPosition">
+    tools:context=".RequestPosition">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/recent"
-        android:id="@+id/p_recent"
+        android:id="@+id/r_recent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -24,28 +24,28 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/p_phone"
+        android:id="@+id/r_phone"
         android:hint="@string/phone_hint"
-        android:layout_alignBottom="@+id/p_send"
-        android:layout_toRightOf="@+id/p_pick_contact"
-        android:layout_toEndOf="@+id/p_pick_contact" />
+        android:layout_alignBottom="@+id/r_send"
+        android:layout_toRightOf="@+id/r_pick_contact"
+        android:layout_toEndOf="@+id/r_pick_contact" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/p_send"
+        android:id="@+id/r_send"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/p_phone"
-        android:layout_toRightOf="@+id/p_phone"
+        android:layout_toEndOf="@+id/r_phone"
+        android:layout_toRightOf="@+id/r_phone"
         android:src="@android:drawable/ic_menu_send"
         android:contentDescription="@string/send" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/p_pick_contact"
+        android:id="@+id/r_pick_contact"
         android:src="@android:drawable/ic_menu_my_calendar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -55,19 +55,10 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/p_recent_list"
-        android:layout_below="@+id/p_recent"
+        android:id="@+id/r_recent_list"
+        android:layout_below="@+id/r_recent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/p_last_position" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/waiting"
-        android:id="@+id/p_last_position"
-        android:layout_above="@+id/p_phone"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/r_phone" />
 
 </RelativeLayout>

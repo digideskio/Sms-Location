@@ -1,28 +1,20 @@
 package com.mou.smslocation;
-
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.Telephony;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import android.widget.Toast;
 
 
 public class SmsReceiver extends BroadcastReceiver implements LocationListener {
@@ -31,6 +23,7 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
     LocationManager locationManager;
     int cycles = 0;
     String last_phone;
+    SharedPreferences SP;
 
     private void saveSms(String num, String message) {
         SQLiteDatabase db;
@@ -70,7 +63,8 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
             notifyNewPos(num, "New position!");
             body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
             saveSms(num, body);
-        } else if (body.startsWith(context.getString(R.string.code))) {
+        } else if (body.startsWith(context.getString(R.string.code)) &&
+                SP.getBoolean("position_public", true)) {
             notifyNewPos(num, "Position request!");
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             if (SendPosition.checkLocationPermission(context))
@@ -83,6 +77,7 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
     @Override
     public void onReceive(Context context_, Intent intent) {
         context = context_;
+        SP = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SmsMessage[] messages;
@@ -108,7 +103,6 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (Integer.parseInt(SP.getString("cycle_wait", "10")) < cycles) {
             if (SendPosition.checkLocationPermission(context))

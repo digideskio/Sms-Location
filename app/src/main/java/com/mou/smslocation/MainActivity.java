@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Button to_send = (Button) findViewById(R.id.to_send);
         Button to_settings = (Button) findViewById(R.id.to_settings);
         Button to_info = (Button) findViewById(R.id.to_info);
+        Button to_request = (Button) findViewById(R.id.to_request);
 
         if (to_list == null) throw new AssertionError("Object cannot be null");
         to_list.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
         to_send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View p) {
                 Intent i = new Intent(context, SendPosition.class);
+                startActivity(i);
+            }
+        });
+
+        if (to_request == null) throw new AssertionError("Object cannot be null");
+        to_request.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View p) {
+                Intent i = new Intent(context, RequestPosition.class);
                 startActivity(i);
             }
         });
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button[] Buttons = {to_list, to_send, to_info, to_settings};
+        Button[] Buttons = {to_list, to_send, to_info, to_settings, to_request};
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
         for (int i = 0; i < Buttons.length; i++) {

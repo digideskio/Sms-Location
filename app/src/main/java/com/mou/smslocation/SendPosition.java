@@ -48,7 +48,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private ImageButton send;
     private String[] recent_phones;
 
-    private String[] removeDup(String[] from) {
+    public static String[] removeDup(String[] from) {
         ArrayList<String> from_list = new ArrayList<String>(Arrays.asList(from));
         ArrayList<String> res_list = new ArrayList<String>();
         String[] res;
@@ -111,11 +111,11 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_send_position);
         context = SendPosition.this;
 
-        tv_last_position = (TextView) findViewById(R.id.lastposition);
-        send = (ImageButton) findViewById(R.id.send);
-        phone = (EditText) findViewById(R.id.phone);
-        sms_list = (ListView) findViewById(R.id.recentlist);
-        ImageButton pick_contact = (ImageButton) findViewById(R.id.pickcontact);
+        tv_last_position = (TextView) findViewById(R.id.p_last_position);
+        send = (ImageButton) findViewById(R.id.p_send);
+        phone = (EditText) findViewById(R.id.p_phone);
+        sms_list = (ListView) findViewById(R.id.p_recent_list);
+        ImageButton pick_contact = (ImageButton) findViewById(R.id.p_pick_contact);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (checkLocationPermission(context))
             finish();

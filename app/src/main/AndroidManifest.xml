@@ -37,7 +37,8 @@
         </receiver>
 
         <activity android:name=".Information" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".RequestPosition"></activity>
     </application>
 
 </manifest>

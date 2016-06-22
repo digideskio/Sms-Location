@@ -35,7 +35,7 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:src="@mipmap/ic_launcher" />
 
     <Button
@@ -43,20 +43,29 @@
         android:layout_height="wrap_content"
         android:text="@string/information"
         android:id="@+id/to_info"
-        android:layout_below="@+id/to_list"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:drawableTop="@android:drawable/ic_menu_help"
-        android:layout_marginTop="25dp" />
+        android:layout_below="@+id/to_request"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
         android:id="@+id/to_settings"
-        android:layout_alignTop="@+id/to_info"
-        android:layout_alignRight="@+id/to_send"
         android:drawableTop="@android:drawable/ic_menu_manage"
+        android:layout_alignTop="@+id/to_request"
+        android:layout_alignRight="@+id/to_send"
         android:layout_alignEnd="@+id/to_send" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Request position"
+        android:id="@+id/to_request"
+        android:drawableTop="@android:drawable/ic_menu_compass"
+        android:layout_below="@+id/to_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
