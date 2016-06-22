@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-        <CheckBoxPreference
-            android:title="Share your position"
-            android:defaultValue="false"
-            android:summary="Allow anyone to request your position"
-            android:key="position_public"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <Preference android:title="@string/delete_database"
-            android:key="delete_database"
-            android:summary="It will remove all history"/>
+    <CheckBoxPreference
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:defaultValue="false"
+        android:key="position_public"
+        android:summary="Allow anyone to request your position"
+        android:title="Share your position" />
+
+    <CheckBoxPreference
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:defaultValue="false"
+        android:key="raw_data"
+        android:summary="Show GPS while sending position"
+        android:title="Raw data" />
+
+    <Preference
+        android:key="delete_database"
+        android:summary="It will remove all history"
+        android:title="@string/delete_database" />
 </PreferenceScreen>

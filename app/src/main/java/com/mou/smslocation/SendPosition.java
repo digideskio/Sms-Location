@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -184,7 +187,13 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(Location location) {
         last_position = location;
-        tv_last_position.setText("Getting position:\n" + location.getLatitude() + "," + location.getLongitude());
+        String text = "";
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (SP.getBoolean("raw_data", false))
+            text = "Raw:\n" + location.getLatitude() + "," + location.getLongitude() + "\n";
+        text += "GPS Precision: " + location.getAccuracy() + "m";
+        tv_last_position.setText(text);
     }
 
     @Override
