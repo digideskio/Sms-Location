@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +21,6 @@ public class SmsList extends AppCompatActivity {
     private String TAG = "SmsLocationList";
     private ListView sms_list;
     private Context context;
-    private Handler handler;
 
     public static String[] getSmsArray(Context cont, int select, boolean filter)
     {
@@ -83,17 +84,24 @@ public class SmsList extends AppCompatActivity {
             }
         });
         reloadData();
-        Runnable runnable = new Runnable() {
-            //auto reload data
-            @Override
-            public void run() {
-                reloadData();
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler = new Handler();
-        handler.postDelayed(runnable, 1000);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.reload_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_reload:
+                reloadData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     public void onResume()
     {

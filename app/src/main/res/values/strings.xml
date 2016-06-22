@@ -16,6 +16,7 @@
     <string name="information">Information</string>
     <string name="delete_database">Reset database</string>
     <string name="code">Position request</string>
+    <string name="reload">Reload</string>
     <string name="informations">Information:\n
         This is an open source project:\n
         https://github.com/mouuff/Sms-Location\n
