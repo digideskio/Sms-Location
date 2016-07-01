@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkFirstRun() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
-        if (isFirstRun){
+        if (isFirstRun) {
             new AlertDialog.Builder(this)
                     .setTitle("Warning")
-                    .setMessage("This app is using SMS to communicate," +
-                            "\nWith the current settings anyone can access your position by SMS" +
-                            "\nYou can turn off sharing position in the options to prevent unwanted cost" +
-                            "\nand only use this application to send your position")
+                    .setMessage("This app is using SMS to communicate,\n" +
+                            "With the current settings anyone can access your position by SMS\n" +
+                            "You can turn off sharing position in the options to prevent unwanted cost\n" +
+                            "and only use this application to send your position\n")
                     .setNeutralButton("OK", null)
                     .show();
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
