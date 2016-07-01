@@ -39,7 +39,7 @@ public class RequestPosition extends AppCompatActivity {
     private void reloadData() {
         String res[];
 
-        recent_phones = SmsList.getSmsArray(context, 0, false);
+        recent_phones = Database.getSmsArray(context, 0, false);
         recent_phones = SendPosition.removeDup(recent_phones);
         res = MainActivity.phoneArrayToName(context, recent_phones);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -81,7 +81,7 @@ public class RequestPosition extends AppCompatActivity {
                 try {
                     smsManager.sendTextMessage(phone.getText().toString(), null, message, null, null);
                     Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
-                    SmsReceiver.saveSms(context, phone.getText().toString(), message, true);
+                    Database.saveSms(context, phone.getText().toString(), message, true);
                 } catch (Exception e) {
                     Toast.makeText(context,
                             "Did not send sms:\n" + e.getMessage(),

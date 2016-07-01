@@ -66,7 +66,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
     private void reloadData() {
         String res[];
 
-        recent_phones = SmsList.getSmsArray(context, 0, false);
+        recent_phones = Database.getSmsArray(context, 0, false);
         recent_phones = removeDup(recent_phones);
         res = MainActivity.phoneArrayToName(context, recent_phones);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -97,7 +97,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         try {
             smsManager.sendTextMessage(phone, null, message, null, null);
             Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
-            SmsReceiver.saveSms(context, phone, message, true);
+            Database.saveSms(context, phone, message, true);
             return (true);
         } catch (Exception e) {
             Toast.makeText(context,

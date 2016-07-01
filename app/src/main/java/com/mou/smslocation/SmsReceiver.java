@@ -25,19 +25,6 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
     String last_phone;
     SharedPreferences SP;
 
-    static void saveSms(Context context, String num, String message, boolean sent) {
-        SQLiteDatabase db;
-
-        db = context.openOrCreateDatabase(context.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME, sent INTEGER);");
-        if (sent)
-            db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "', datetime('now', 'localtime'), 1);");
-        else
-            db.execSQL("INSERT INTO sms VALUES('" + num + "','" + message + "', datetime('now', 'localtime'), 0);");
-        //unsecure to sql injection
-        db.close();
-    }
-
     private void notifyNewPos(String num, String text) {
         NotificationCompat.Builder builder;
         Intent i;
@@ -65,7 +52,7 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
         if (body.startsWith(context.getString(R.string.prefix))) {
             notifyNewPos(num, "New position!");
             body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
-            saveSms(context, num, body, false);
+            Database.saveSms(context, num, body, false);
         } else if (body.startsWith(context.getString(R.string.code)) &&
                 SP.getBoolean("position_public", true)) {
             notifyNewPos(num, "Position request!");

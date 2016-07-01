@@ -22,37 +22,12 @@ public class SmsList extends AppCompatActivity {
     private ListView sms_list;
     private Context context;
 
-    public static String[] getSmsArray(Context cont, int select, boolean filter)
-    {
-        String res[];
-        StringBuilder buff = new StringBuilder();
-        SQLiteDatabase db;
-        Cursor cur;
 
-        db = cont.openOrCreateDatabase(cont.getString(R.string.db_name), Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS sms(number TEXT, data TEXT, date DATETIME, sent INTEGER);");
-        if (filter)
-            cur = db.rawQuery("SELECT * FROM sms WHERE sms.sent == 0 ORDER BY date DESC;", null);
-        else
-            cur = db.rawQuery("SELECT * FROM sms ORDER BY date DESC;", null);
-        while (cur.moveToNext())
-        {
-            buff.append(cur.getString(select));
-            buff.append("\n");
-        }
-        cur.close();
-        db.close();
-        if (buff.toString().length() == 0) {
-            return (new String[0]);
-        }
-        res = buff.toString().split("\n");
-        return (res);
-    }
     private void reloadData()
     {
         String[] res;
 
-        res = getSmsArray(context, 0, true);
+        res = Database.getSmsArray(context, 0, true);
         res = MainActivity.phoneArrayToName(context, res);
         sms_list.setAdapter(new SmsListAdapter(context));
         sms_list.setEmptyView(findViewById(R.id.empty));
@@ -72,8 +47,8 @@ public class SmsList extends AppCompatActivity {
                 String coords;
                 String name;
 
-                name = getSmsArray(context, 0, true)[(int)id];
-                coords = getSmsArray(context, 1, true)[(int)id];
+                name = Database.getSmsArray(context, 0, true)[(int)id];
+                coords = Database.getSmsArray(context, 1, true)[(int)id];
                 if (coords.length() > 0) {
                     //Toast.makeText(context, coords, Toast.LENGTH_SHORT).show();
                     String uri = "geo:" + coords + "?q=" + coords + "(" + MainActivity.getContactName(context, name) + ")";
