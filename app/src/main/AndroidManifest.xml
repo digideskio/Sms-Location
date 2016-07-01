@@ -29,6 +29,7 @@
 
         <receiver
             android:name=".SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="500">
@@ -38,7 +39,7 @@
 
         <activity android:name=".Information" />
         <activity android:name=".Settings" />
-        <activity android:name=".RequestPosition"></activity>
+        <activity android:name=".RequestPosition" />
     </application>
 
 </manifest>
