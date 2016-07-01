@@ -91,17 +91,17 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
             Toast.makeText(context, "No position", Toast.LENGTH_SHORT).show();
             return (false);
         }
-        message = ((String) context.getText(R.string.prefix)) + "=" +
+        message = context.getText(R.string.prefix) + "=" +
                 location.getLatitude() + "," + location.getLongitude();
         SmsManager smsManager = SmsManager.getDefault();
         try {
             smsManager.sendTextMessage(phone, null, message, null, null);
-            Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.sent), Toast.LENGTH_SHORT).show();
             Database.saveSms(context, phone, message, true);
             return (true);
         } catch (Exception e) {
             Toast.makeText(context,
-                    "Did not send sms:\n" + e.getMessage(),
+                    context.getString(R.string.not_sent) + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
         return (false);
@@ -168,7 +168,7 @@ public class SendPosition extends AppCompatActivity implements LocationListener 
         super.onPause();
         if (checkLocationPermission(context))
             finish();
-        locationManager.removeUpdates((LocationListener) this);
+        locationManager.removeUpdates(this);
     }
 
     @Override

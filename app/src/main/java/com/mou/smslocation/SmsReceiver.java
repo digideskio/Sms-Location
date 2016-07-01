@@ -50,12 +50,12 @@ public class SmsReceiver extends BroadcastReceiver implements LocationListener {
         last_phone = num;
         body = message.getDisplayMessageBody();
         if (body.startsWith(context.getString(R.string.prefix))) {
-            notifyNewPos(num, "New position!");
+            notifyNewPos(num, context.getString(R.string.new_position));
             body = body.substring(context.getString(R.string.prefix).length() + 1, body.length());
             Database.saveSms(context, num, body, false);
         } else if (body.startsWith(context.getString(R.string.code)) &&
                 SP.getBoolean("position_public", true)) {
-            notifyNewPos(num, "Position request!");
+            notifyNewPos(num, context.getString(R.string.request_position));
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             if (SendPosition.checkLocationPermission(context))
                 return;

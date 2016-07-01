@@ -26,10 +26,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun) {
             new AlertDialog.Builder(this)
                     .setTitle("Warning")
-                    .setMessage("This app is using SMS to communicate,\n" +
-                            "With the current settings anyone can access your position by SMS\n" +
-                            "You can turn off sharing position in the options to prevent unwanted cost\n" +
-                            "and only use this application to send your position\n")
+                    .setMessage(getString(R.string.warning))
                     .setNeutralButton("OK", null)
                     .show();
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)

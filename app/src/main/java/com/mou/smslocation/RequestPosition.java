@@ -80,11 +80,11 @@ public class RequestPosition extends AppCompatActivity {
                 SmsManager smsManager = SmsManager.getDefault();
                 try {
                     smsManager.sendTextMessage(phone.getText().toString(), null, message, null, null);
-                    Toast.makeText(context, "Sms sent!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.sent), Toast.LENGTH_SHORT).show();
                     Database.saveSms(context, phone.getText().toString(), message, true);
                 } catch (Exception e) {
                     Toast.makeText(context,
-                            "Did not send sms:\n" + e.getMessage(),
+                            getString(R.string.not_sent) + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
                 finish();

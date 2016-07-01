@@ -26,5 +26,16 @@
         \n
         For more information, contact me with the button below.\n
     </string>
+    <string name="warning">
+        This app is using SMS to communicate,\n
+        With the current settings anyone can access your position by SMS\n
+        You can turn off sharing position in the options to prevent unwanted cost\n
+        and only use this application to send your position\n
+    </string>
     <string name="contact_me">Contact me</string>
+    <string name="sent">Sms sent!</string>
+    <string name="not_sent">Did not send sms:\n</string>
+    <string name="warning_reset">Are you sure you want to reset database?</string>
+    <string name="new_position">New position!</string>
+    <string name="request_position">Position request!</string>
 </resources>

@@ -30,7 +30,7 @@ public class Settings extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
-            Preference button = (Preference) findPreference("delete_database");
+            Preference button = findPreference("delete_database");
             context = getActivity();
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -39,7 +39,7 @@ public class Settings extends PreferenceActivity {
                         return (true);
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Are you sure you want to reset database?")
+                    builder.setMessage(getString(R.string.warning_reset))
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
